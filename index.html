@@ -81,7 +81,8 @@
   .linha.foco{background:rgba(47,111,222,.1);}
   .linha--destaque{background:rgba(253,223,3,.22);}
   .foto{width:52px;height:66px;flex-shrink:0;overflow:hidden;border-radius:10px;background:var(--nevoa);}
-  .foto img,.foto svg{display:block;width:100%;height:100%;object-fit:cover;}
+  .foto svg{display:block;width:100%;height:100%;}
+  .foto-img{width:100%;height:100%;background-size:cover;background-position:center top;background-repeat:no-repeat;}
   .foto svg{color:rgba(10,10,74,.22);}
   .info{flex:1;min-width:0;}
   .cargo{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:rgba(10,10,74,.55);}
@@ -194,12 +195,12 @@ let focado = null;
 
 const PREFIXO = { 'DEPUTADO FEDERAL':'f', 'SENADOR':'s', 'GOVERNADOR':'g', 'PRESIDENTE':'p' };
 function fotoHtml(c){
-  if(c.fixed) return '<img alt="Foto de Bosco" src="' + FOTO + '">';
+  if(c.fixed) return '<div class="foto-img" role="img" aria-label="Foto de Bosco" style="background-image:url(' + FOTO + ')"></div>';
   const v = valores[c.id] || '';
   if(v.length !== c.digits || (c.id === 's2' && v === valores.s1)) return SILHUETA;
   const d = (DB[c.db] || {})[v];
   if(!d || !d.foto) return SILHUETA;
-  return '<img alt="Foto de ' + esc(titulo(d.nome)) + '" src="fotos/' + PREFIXO[c.db] + v + '.jpg" onerror="this.outerHTML=SILHUETA">';
+  return '<div class="foto-img" role="img" aria-label="Foto de ' + esc(titulo(d.nome)) + '" style="background-image:url(fotos/' + PREFIXO[c.db] + v + '.jpg)"></div>';
 }
 function infoHtml(c){
   if(c.fixed) return '<p class="nome">' + esc(c.fixed.nome) + '</p><p class="partido">' + esc(c.fixed.partido) + '</p>';
